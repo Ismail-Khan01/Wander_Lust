@@ -1,6 +1,18 @@
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
 const port = 8000
+
+const mongo_url = "mongodb://127.0.0.1:27017/wanderLust"
+async function main() {
+    await mongoose.connect(mongo_url);
+}
+main().then(() => {
+    console.log("connection established with data base");
+}).catch((err) => {
+    console.log(err)
+})
+
 
 app.get("/", (req, res) => {
     console.log("the get request on / route")

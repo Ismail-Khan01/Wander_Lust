@@ -14,14 +14,16 @@ main().then(() => {
     console.log(err)
 })
 
-app.get("/list", (req, res) => {
-    const list1 = new list({
-        title: "ismail's villa",
+app.get("/list", async (req, res) => {
+    const list2 = new list({
+        title: " villa 2",
         description: "A place best for vocation",
-        price: 10000,
+        price: 20000,
         location: "Banglore",
         country: "India"
     })
+    const response = await list2.save()
+    console.log(response.title);
     res.send("received the request");
 })
 

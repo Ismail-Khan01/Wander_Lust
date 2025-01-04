@@ -1,30 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout("layouts/boilerplate") %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <body>
+        <h3>Edit the listing </h3>
 
-<body>
-    <h3>Edit the listing </h3>
-
-    <form action="/listings/<%=list.id%>?_method=PUT" method="post">
-        <input name="listing[title]" value="<%= list.title %>" type="text" />
-        <br /><br />
-        <textarea name="listing[description]"> <%= list.description %> </textarea>
-        <br /><br />
-        <input name="listing[image]" value="<%= list.image %>" type="text" />
-        <br /><br />
-        <input name="listing[price]" value="<%= list.price %>" type="number" />
-        <br /><br />
-        <input name="listing[country]" value="<%= list.country %>" type="text" />
-        <br /><br />
-        <input name="listing[location]" value="<%= list.location %>" type="text" />
-        <br /><br />
-        <button>Edit</button>
-    </form>
-</body>
-
-</html>
+        <form action="/listings/<%=list.id%>?_method=PUT" method="post">
+            <input name="listing[title]" value="<%= list.title %>" type="text" />
+            <br /><br />
+            <textarea name="listing[description]"> <%= list.description %> </textarea>
+            <br /><br />
+            <input name="listing[image]" value="<%= list.image %>" type="text" />
+            <br /><br />
+            <input name="listing[price]" value="<%= list.price %>" type="number" />
+            <br /><br />
+            <input name="listing[country]" value="<%= list.country %>" type="text" />
+            <br /><br />
+            <input name="listing[location]" value="<%= list.location %>" type="text" />
+            <br /><br />
+            <button>Edit</button>
+        </form>
+    </body>

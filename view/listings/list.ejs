@@ -1,37 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout("layouts/boilerplate") -%>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> List </title>
-</head>
+    <h3>Listing Details :</h3>
+    <ul>
+        <li>
+            <%= list.title %>
+        </li>
+        <li>
+            <%= list.description %>
+        </li>
+        <li>&#8377; <%= list.price.toLocaleString("en-IN") %>
+        </li>
+        <li>
+            <%= list.location %>
+        </li>
+        <li>
+            <%= list.country %>
+        </li>
+    </ul>
+    <br />
+    <button><a href="/listings/<%=list.id%>/edit">Edit listing</a></button>
+    <br>
+    <br>
+    <form action="/listings/<%=list.id%>?_method=DELETE" method="post">
+        <button>Delete the listing</button>
+    </form>
 
-<h3>Listing Details :</h3>
-<ul>
-    <li>
-        <%= list.title %>
-    </li>
-    <li>
-        <%= list.description %>
-    </li>
-    <li>&#8377; <%= list.price.toLocaleString("en-IN") %>
-    </li>
-    <li>
-        <%= list.location %>
-    </li>
-    <li>
-        <%= list.country %>
-    </li>
-</ul>
-<br />
-<button><a href="/listings/<%=list.id%>/edit">Edit listing</a></button>
-<br>
-<br>
-<form action="/listings/<%=list.id%>?_method=DELETE" method="post">
-    <button>Delete the listing</button>
-</form>
-
-</body>
-
-</html>
+    </body>

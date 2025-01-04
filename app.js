@@ -5,12 +5,15 @@ const port = 8000
 const path = require("path")
 const listing = require("./models/listing")
 const methodoverride = require("method-override");
+const ejsmate = require("ejs-mate");
 
 app.use(methodoverride("_method"))
 app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "view"));
+
+app.engine("ejs", ejsmate);
 
 const mongo_url = "mongodb://127.0.0.1:27017/wanderLust"
 async function main() {
@@ -34,14 +37,10 @@ app.get("/listings/new", (req, res) => {
     res.render("listings/new.ejs");
 })
 
-app.post("/listings", (req, res) => {
+app.post("/listings", async (req, res) => {
     const { listing: list } = req.body
     const newListing = new listing(list);
-    newListing.save().then((res) => {
-        console.log(res)
-    }).catch((err) => {
-        console.log(err);
-    })
+    await newListing.save()
     res.redirect("/listings")
 })
 
@@ -63,8 +62,7 @@ app.get("/listings/:id/edit", async (req, res) => {
 app.put("/listings/:id", async (req, res) => {
     const { id } = req.params;
     const { listing: list } = req.body;
-    const response = await listing.findByIdAndUpdate(id, { ...list }, { new: true, runValidators: true });
-    console.log("response", response);
+    await listing.findByIdAndUpdate(id, { ...list }, { new: true, runValidators: true });
     res.redirect(`/listings/${id}`)
 })
 
@@ -76,7 +74,6 @@ app.delete("/listings/:id", async (req, res) => {
 
 // root route
 app.get("/", (req, res) => {
-
     console.log("the get request on / route")
     res.send("This is the root page")
 })

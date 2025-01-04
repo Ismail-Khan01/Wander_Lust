@@ -22,6 +22,11 @@ app.get("/listings", async (req, res) => {
     res.render("allListings.ejs", { Listings });
 })
 
+app.get("/listings/:id", async (req, res) => {
+    const { id } = req.params;
+    const list = await listing.findById(id);
+    res.render("list", { list });
+})
 
 app.get("/", (req, res) => {
     console.log("the get request on / route")

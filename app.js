@@ -19,13 +19,13 @@ main().then(() => {
 
 app.get("/listings", async (req, res) => {
     const Listings = await listing.find({});
-    res.render("allListings.ejs", { Listings });
+    res.render("listings/allListings.ejs", { Listings });
 })
 
 app.get("/listings/:id", async (req, res) => {
     const { id } = req.params;
     const list = await listing.findById(id);
-    res.render("list", { list });
+    res.render("listings/list", { list });
 })
 
 app.get("/", (req, res) => {

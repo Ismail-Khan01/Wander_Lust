@@ -30,6 +30,20 @@ app.get("/listings", async (req, res) => {
     res.render("listings/allListings.ejs", { Listings });
 })
 
+app.get("/listings/new", (req, res) => {
+    res.render("listings/new.ejs");
+})
+
+app.post("/listings", (req, res) => {
+    const { listing: list } = req.body
+    const newListing = new listing(list);
+    newListing.save().then((res) => {
+        console.log(res)
+    }).catch((err) => {
+        console.log(err);
+    })
+    res.redirect("/listings")
+})
 
 // route to view individual listing
 app.get("/listings/:id", async (req, res) => {

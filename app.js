@@ -30,6 +30,7 @@ app.get("/listings", async (req, res) => {
     res.render("listings/allListings.ejs", { Listings });
 })
 
+
 // route to view individual listing
 app.get("/listings/:id", async (req, res) => {
     const { id } = req.params;
@@ -53,8 +54,15 @@ app.put("/listings/:id", async (req, res) => {
     res.redirect(`/listings/${id}`)
 })
 
+app.delete("/listings/:id", async (req, res) => {
+    const { id } = req.params
+    await listing.findByIdAndDelete(id);
+    res.redirect("/listings");
+})
+
 // root route
 app.get("/", (req, res) => {
+
     console.log("the get request on / route")
     res.send("This is the root page")
 })

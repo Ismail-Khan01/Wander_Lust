@@ -1,3 +1,12 @@
+body{
+    font-family: "Plus Jakarta Sans",sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.container{
+    flex:1;
+}
 .fa-compass{
     color:#fe424d ;
     font-size:2rem ;
@@ -41,3 +50,38 @@
    justify-content: space-evenly;
    flex-direction: column;
 }
+
+
+.card-body{
+    padding: 0;
+}
+.card-img-top{
+  width: 100% !important;
+  border-radius: 1.5rem !important;
+  object-fit: cover !important;
+}
+.card{
+    border: none;
+    margin-bottom: 2rem;
+}
+.cards-text {
+    font-weight: 400;
+}
+.row a{
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+}
+
+.flex{
+    display: flex;
+}
+
+.card-img-overlay{
+    opacity: none;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+

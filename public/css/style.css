@@ -1,0 +1,43 @@
+.fa-compass{
+    color:#fe424d ;
+    font-size:2rem ;
+}
+.navbar{
+    position: sticky;
+    top: 0;
+    background-color: white;
+    height: 5rem;
+    z-index: 1;
+}
+.nav-link{
+    color: #222 !important;
+}
+.f-info-links,.f-info-social,.f-info-brand{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.f-info-link,.f-info-socials i{
+    text-decoration: none;
+   margin-right: 1rem;
+}
+.fa-brands{
+    font-size: 1.2rem ;
+    margin-right: 1rem;
+    transition: all 0.5s ease-in-out;
+}
+.fa-brands:hover{
+    scale: 1.5;
+}
+.f-info-link:hover{
+    text-decoration: underline;
+}
+.f-info{
+    background-color: #ebebeb;
+    height: 8rem;
+    display: flex;
+    align-items: center;
+   justify-content: space-evenly;
+   flex-direction: column;
+}

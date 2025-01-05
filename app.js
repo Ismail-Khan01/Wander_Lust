@@ -7,11 +7,13 @@ const listing = require("./models/listing")
 const methodoverride = require("method-override");
 const ejsmate = require("ejs-mate");
 
+
 app.use(methodoverride("_method"))
 app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "view"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.engine("ejs", ejsmate);
 

@@ -8,6 +8,7 @@ const methodoverride = require("method-override");
 const ejsmate = require("ejs-mate");
 const customError = require("./utils/error.js");
 const asyncWrap = require("./utils/asyncWrap.js");
+const listingSchema = require("./schema.js");
 
 
 app.use(methodoverride("_method"))
@@ -31,6 +32,18 @@ main().then(() => {
     console.log(err)
 })
 
+const listingValidator = (req, res, next) => {
+    const { error } = listingSchema.validate(req.body);
+    if (error) {
+        const errmsg = error.details.map((el) => el.message).join(",")
+        console.log(errmsg);
+        throw new customError(400, errmsg)
+    }
+    else {
+        next();
+    }
+}
+
 // route to view all listings
 app.get("/listings", asyncWrap(async (req, res) => {
     const Listings = await listing.find({});
@@ -41,11 +54,8 @@ app.get("/listings/new", (req, res) => {
     res.render("listings/new.ejs");
 })
 
-app.post("/listings", asyncWrap(async (req, res) => {
+app.post("/listings", listingValidator, asyncWrap(async (req, res) => {
     const { listing: list } = req.body
-    if (!list) {
-        throw new customError(400, "provide the listing data")
-    }
     const newListing = new listing(list);
     await newListing.save()
     res.redirect("/listings")
@@ -66,12 +76,9 @@ app.get("/listings/:id/edit", asyncWrap(async (req, res) => {
 }))
 
 // route to update the listing
-app.put("/listings/:id", asyncWrap(async (req, res) => {
+app.put("/listings/:id", listingValidator, asyncWrap(async (req, res) => {
     const { id } = req.params;
     const { listing: list } = req.body;
-    if (!list) {
-        throw new customError(400, "Provide listing data")
-    }
     await listing.findByIdAndUpdate(id, { ...list }, { new: true, runValidators: true });
     res.redirect(`/listings/${id}`)
 }))

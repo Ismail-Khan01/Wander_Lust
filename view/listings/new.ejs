@@ -1,4 +1,4 @@
-<% layout('layouts/boilerplate') -%>
+<% layout("layouts/boilerplate")%>
 
     <body>
         <br>
@@ -17,14 +17,20 @@
                         Enter the Title
                     </div>
                 </div>
-                <div class="mb-3"><label for="description" class="form-lable">Description :</label>
-                    <textarea name="listing[description]" id="description" class="form-control" required>  </textarea>
-                    <div class="valid-feedback">
-                        Description Looks good!
-                    </div>
-                    <div class="invalid-feedback">
-                        Enter the Description
-                    </div>
+                <div class="mb-3">
+                    <label for="description" class="form-lable">Description :</label>
+                    <textarea name="listing[description]" id="description" class="form-control" required
+                        placeholder="enter Description">  </textarea>
+                    <div class="invalid-feedback">Enter the Description</div>
+                    <div class="valid-feedback">Description Looks good!</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="listing[description]" placeholder="Enter description" class="form-control" required
+                        id="description"></textarea>
+                    <div class="invalid-feedback">Please provide a description.</div>
+                    <div class="valid-feedback">Description looks good.</div>
                 </div>
                 <div class="mb-3"><label for="image" class="form-lable">Image : </label>
                     <input name="listing[image]" id="image" placeholder="image Link" type="text" class="form-control" />
@@ -57,5 +63,5 @@
             </div>
         </form>
         <br><br>
-        <script src="/js/script.js"></script>
+
     </body>

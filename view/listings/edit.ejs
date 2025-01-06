@@ -3,31 +3,47 @@
     <body>
         <h3 class="offset-2 mt-3">Edit the listing </h3>
 
-        <form action="/listings/<%=list.id%>?_method=PUT" method="post">
+        <form action="/listings/<%=list.id%>?_method=PUT" method="post" class="needs-validation" novalidate>
             <div class="col-8 offset-2">
-                <div class="mb-3"><label for="title" class="form-lable">Title :</label>
-                    <input name="listing[title]" id="title" type="text" class="form-control" value="<%=list.title%>" />
+                <div class="mb-3">
+                    <label for="title" class="form-lable">Title :</label>
+                    <input name="listing[title]" id="title" type="text" class="form-control" value="<%=list.title%>"
+                        required />
+                    <div class="invalid-feedback">Enter the Title</div>
                 </div>
-                <div class="mb-3"><label for="description" class="form-lable">Description :</label>
-                    <textarea name="listing[description]" id="description" class="form-control"
-                        style="resize:none;"><%=list.description%>  </textarea>
+                <div class="mb-3">
+                    <label for="description" class="form-lable">Description :</label>
+                    <textarea name="listing[description]" id="description" class="form-control" style="resize:none;"
+                        required><%=list.description%>  </textarea>
+                    <div class="invalid-feedback">Enter the Description</div>
                 </div>
-                <div class="mb-3"><label for="image" class="form-lable">Image : </label>
-                    <input name="listing[image]" id="image" type="text" class="form-control" value="<%=list.image%>" />
+                <div class="mb-3">
+                    <label for="image" class="form-lable">Image : </label>
+                    <input name="listing[image]" id="image" type="text" class="form-control" value="<%=list.image%>"
+                        required />
+                    <div class="invalid-feedback">Enter a valid image URl</div>
                 </div>
                 <div class="row">
-                    <div class="mb-3 col-md-4"><label for="price" class="form-lable">Price : </label>
+                    <div class="mb-3 col-md-4">
+                        <label for="price" class="form-lable">Price : </label>
                         <input name="listing[price]" id="price" type="number" class="form-control"
-                            value="<%=list.price%>" />
+                            value="<%=list.price%>" required />
+                        <div class="invalid-feedback">
+                            Enter a valid Price
+                        </div>
                     </div>
-                    <div class="mb-3 col-md-8"><label for="country" class="form-lable">Country : </label>
+                    <div class="mb-3 col-md-8">
+                        <label for="country" class="form-lable">Country : </label>
                         <input name="listing[country]" id="Country" type="text" class="form-control"
-                            value="<%=list.country%>" />
+                            value="<%=list.country%>" required />
+                        <div class="invalid-feedback">Enter a valid Country name</div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="location" class="form-lable">Location : </label>
-                    <input name="listing[location]" type="text" class="form-control" value="<%=list.location%>" />
+                    <input name="listing[location]" type="text" class="form-control" value="<%=list.location%>"
+                        required />
+                    <div class="invalid-feedback">Enter a valid Location</div>
                 </div>
                 <button class="btn btn-dark btn-edit mb-3">Edit</button>
             </div>

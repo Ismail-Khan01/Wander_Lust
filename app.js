@@ -6,6 +6,8 @@ const path = require("path")
 const listing = require("./models/listing")
 const methodoverride = require("method-override");
 const ejsmate = require("ejs-mate");
+const customError = require("./utils/error.js");
+const asyncWrap = require("./utils/asyncWrap.js");
 
 
 app.use(methodoverride("_method"))
@@ -30,48 +32,63 @@ main().then(() => {
 })
 
 // route to view all listings
-app.get("/listings", async (req, res) => {
+app.get("/listings", asyncWrap(async (req, res) => {
     const Listings = await listing.find({});
     res.render("listings/allListings.ejs", { Listings });
-})
+}))
 
 app.get("/listings/new", (req, res) => {
     res.render("listings/new.ejs");
 })
 
-app.post("/listings", async (req, res) => {
+app.post("/listings", asyncWrap(async (req, res) => {
     const { listing: list } = req.body
+    if (!list) {
+        throw new customError(400, "provide the listing data")
+    }
     const newListing = new listing(list);
     await newListing.save()
     res.redirect("/listings")
-})
+}))
 
 // route to view individual listing
-app.get("/listings/:id", async (req, res) => {
+app.get("/listings/:id", asyncWrap(async (req, res) => {
     const { id } = req.params;
     const list = await listing.findById(id);
     res.render("listings/list", { list });
-})
+}))
 
 // route to edit the listing
-app.get("/listings/:id/edit", async (req, res) => {
+app.get("/listings/:id/edit", asyncWrap(async (req, res) => {
     const { id } = req.params;
     const list = await listing.findById(id);
     res.render("listings/edit.ejs", { list })
-})
+}))
 
 // route to update the listing
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", asyncWrap(async (req, res) => {
     const { id } = req.params;
     const { listing: list } = req.body;
+    if (!list) {
+        throw new customError(400, "Provide listing data")
+    }
     await listing.findByIdAndUpdate(id, { ...list }, { new: true, runValidators: true });
     res.redirect(`/listings/${id}`)
-})
+}))
 
-app.delete("/listings/:id", async (req, res) => {
+app.delete("/listings/:id", asyncWrap(async (req, res) => {
     const { id } = req.params
     await listing.findByIdAndDelete(id);
     res.redirect("/listings");
+}))
+app.all("*", (req, res, next) => {
+    throw new customError(404, "page not found")
+})
+
+app.use((err, req, res, next) => {
+    const { status = 500, message = "Something went Wrong" } = err;
+    console.log(message, status);
+    res.status(status).send(message);
 })
 
 // root route

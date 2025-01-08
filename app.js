@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const port = 8000
 const path = require("path")
 const listing = require("./models/listing")
+const review = require("./models/review.js")
 const methodoverride = require("method-override");
 const ejsmate = require("ejs-mate");
 const customError = require("./utils/error.js");
@@ -88,6 +89,19 @@ app.delete("/listings/:id", asyncWrap(async (req, res) => {
     await listing.findByIdAndDelete(id);
     res.redirect("/listings");
 }))
+
+// route to add a review
+app.post("/listings/:id/review", async (req, res) => {
+    const { id } = req.params;
+    const list = await listing.findById(id);
+    const Review = new review(req.body.review);
+    list.reviews.push(Review);
+    await list.save()
+    await Review.save()
+    res.redirect(`/listings/${id}`)
+})
+
+
 app.all("*", (req, res, next) => {
     throw new customError(404, "page not found")
 })

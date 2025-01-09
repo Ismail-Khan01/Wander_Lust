@@ -60,7 +60,7 @@ body{
   border-radius: 1.5rem !important;
   object-fit: cover !important;
 }
-.card{
+.card-list{
     border: none;
     margin-bottom: 2rem;
 }

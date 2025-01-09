@@ -74,7 +74,7 @@ app.post("/listings", listingValidator, asyncWrap(async (req, res) => {
 // route to view individual listing
 app.get("/listings/:id", asyncWrap(async (req, res) => {
     const { id } = req.params;
-    const list = await listing.findById(id);
+    const list = await listing.findById(id).populate("reviews")
     res.render("listings/list", { list });
 }))
 
@@ -107,6 +107,13 @@ app.post("/listings/:id/review", reviewValidator, asyncWrap(async (req, res) => 
     list.reviews.push(Review);
     await list.save()
     await Review.save()
+    res.redirect(`/listings/${id}`)
+}))
+
+app.delete("/listings/:id/review/:reviewid", asyncWrap(async (req, res) => {
+    const { id, reviewid } = req.params;
+    await listing.findByIdAndUpdate(id, { $pull: { reviews: reviewid } })
+    await review.findByIdAndDelete(reviewid)
     res.redirect(`/listings/${id}`)
 }))
 

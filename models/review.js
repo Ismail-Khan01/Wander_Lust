@@ -3,7 +3,7 @@ const { max } = require("../schema");
 const { Schema } = mongoose;
 
 const reviewSchema = new Schema({
-    review: String,
+    comment: String,
     rating: {
         type: Number,
         min: 1,

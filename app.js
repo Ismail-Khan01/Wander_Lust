@@ -9,7 +9,7 @@ const methodoverride = require("method-override");
 const ejsmate = require("ejs-mate");
 const customError = require("./utils/error.js");
 const asyncWrap = require("./utils/asyncWrap.js");
-const listingSchema = require("./schema.js");
+const { listingSchema, reviewSchema } = require("./schema.js");
 
 
 app.use(methodoverride("_method"))
@@ -33,11 +33,20 @@ main().then(() => {
     console.log(err)
 })
 
+const reviewValidator = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        const errmsg = error.details.map((el) => el.message).join(",")
+        throw new customError(400, errmsg)
+    }
+    else {
+        next()
+    }
+}
 const listingValidator = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);
     if (error) {
         const errmsg = error.details.map((el) => el.message).join(",")
-        console.log(errmsg);
         throw new customError(400, errmsg)
     }
     else {
@@ -91,7 +100,7 @@ app.delete("/listings/:id", asyncWrap(async (req, res) => {
 }))
 
 // route to add a review
-app.post("/listings/:id/review", async (req, res) => {
+app.post("/listings/:id/review", reviewValidator, asyncWrap(async (req, res) => {
     const { id } = req.params;
     const list = await listing.findById(id);
     const Review = new review(req.body.review);
@@ -99,8 +108,7 @@ app.post("/listings/:id/review", async (req, res) => {
     await list.save()
     await Review.save()
     res.redirect(`/listings/${id}`)
-})
-
+}))
 
 app.all("*", (req, res, next) => {
     throw new customError(404, "page not found")

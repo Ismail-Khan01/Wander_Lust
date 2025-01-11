@@ -32,6 +32,7 @@ router.post("/", listingValidator, asyncWrap(async (req, res) => {
     const { listing: list } = req.body
     const newListing = new listing(list);
     await newListing.save()
+    req.flash("success", "New Listing got saved");
     res.redirect("/listings")
 }))
 
@@ -39,7 +40,14 @@ router.post("/", listingValidator, asyncWrap(async (req, res) => {
 router.get("/:id", asyncWrap(async (req, res) => {
     const { id } = req.params;
     const list = await listing.findById(id).populate("reviews")
-    res.render("listings/list", { list });
+    if (!list) {
+        req.flash("failure", "Listing doesn't exist");
+        res.redirect("/listings")
+    }
+    else {
+
+        res.render("listings/list", { list });
+    }
 }))
 
 
@@ -47,7 +55,14 @@ router.get("/:id", asyncWrap(async (req, res) => {
 router.get("/:id/edit", asyncWrap(async (req, res) => {
     const { id } = req.params;
     const list = await listing.findById(id);
-    res.render("listings/edit.ejs", { list })
+    if (!list) {
+        req.flash("failure", "Listing doesn't exist");
+        res.redirect("/listings")
+    }
+    else {
+
+        res.render("listings/edit.ejs", { list })
+    }
 }))
 
 // route to update the listing
@@ -55,6 +70,7 @@ router.put("/:id", listingValidator, asyncWrap(async (req, res) => {
     const { id } = req.params;
     const { listing: list } = req.body;
     await listing.findByIdAndUpdate(id, { ...list }, { new: true, runValidators: true });
+    req.flash("success", "Listing got updated")
     res.redirect(`/listings/${id}`)
 }))
 
@@ -62,6 +78,7 @@ router.put("/:id", listingValidator, asyncWrap(async (req, res) => {
 router.delete("/:id", asyncWrap(async (req, res) => {
     const { id } = req.params
     await listing.findByIdAndDelete(id);
+    req.flash("success", "Listing Deleted");
     res.redirect("/listings");
 }))
 

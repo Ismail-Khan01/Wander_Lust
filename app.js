@@ -8,6 +8,8 @@ const ejsmate = require("ejs-mate");
 const customError = require("./utils/error.js");
 const listingRouter = require('./router/listings.js');
 const reviewRouter = require("./router/review.js")
+const flash = require("connect-flash");
+const session = require("express-session");
 
 
 app.use(methodoverride("_method"))
@@ -30,10 +32,24 @@ main().then(() => {
 }).catch((err) => {
     console.log(err)
 })
+const sessionOpetions = {
+    secret: "mySecret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true
+    }
+}
 
-
-
-
+app.use(session(sessionOpetions))
+app.use(flash())
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.failure = req.flash("failure")
+    next()
+})
 app.use("/listings", listingRouter);
 app.use("/listings/:id/review", reviewRouter)
 

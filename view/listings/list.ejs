@@ -41,28 +41,30 @@
                 </div>
                 <button class="btn btn-outline-dark mb-3">Submit</button>
             </form>
-            <hr>
-            <h1>All Reviews</h1>
-            <div class="row">
-                <% for(review of list.reviews){%>
-                    <div class="card col-5 ms-4 mb-3">
-                        <h5 class="card-title "> Ismail khan</h5>
-                        <div class="card-body">
-                            <p class="card-text">
-                                <%=review.comment %>
-                            </p>
-                            <p class="card-text">
-                                <%= review.rating%> Stars
-                            </p>
-                        </div>
-                        <form action="/listings/<%=list.id%>/review/<%=review.id%>?_method=DELETE" class="mb-3"
-                            method="post">
-                            <button class="btn btn-dark btn-sm">Delete</button>
-                        </form>
+            <% if(list.reviews.length){%>
+                <hr>
+                <h1>All Reviews</h1>
+                <%}%>
+                    <div class="row">
+                        <% for(review of list.reviews){%>
+                            <div class="card col-5 ms-4 mb-3">
+                                <h5 class="card-title "> Ismail khan</h5>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <%=review.comment %>
+                                    </p>
+                                    <p class="card-text">
+                                        <%= review.rating%> Stars
+                                    </p>
+                                </div>
+                                <form action="/listings/<%=list.id%>/review/<%=review.id%>?_method=DELETE" class="mb-3"
+                                    method="post">
+                                    <button class="btn btn-dark btn-sm">Delete</button>
+                                </form>
 
+                            </div>
+                            <% }%>
                     </div>
-                    <% }%>
-            </div>
 
         </div>
     </div>

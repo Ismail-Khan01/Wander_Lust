@@ -8,8 +8,12 @@ const ejsmate = require("ejs-mate");
 const customError = require("./utils/error.js");
 const listingRouter = require('./router/listings.js');
 const reviewRouter = require("./router/review.js")
+const userRouter = require("./router/user.js");
 const flash = require("connect-flash");
 const session = require("express-session");
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const user = require("./models/user.js");
 
 
 app.use(methodoverride("_method"))
@@ -45,6 +49,14 @@ const sessionOpetions = {
 
 app.use(session(sessionOpetions))
 app.use(flash())
+
+app.use(passport.initialize());
+app.use(passport.session())
+passport.use(new LocalStrategy(user.authenticate()))
+
+passport.serializeUser(user.serializeUser())
+passport.deserializeUser(user.deserializeUser())
+
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.failure = req.flash("failure")
@@ -52,8 +64,7 @@ app.use((req, res, next) => {
 })
 app.use("/listings", listingRouter);
 app.use("/listings/:id/review", reviewRouter)
-
-
+app.use("/", userRouter)
 
 
 app.all("*", (req, res, next) => {

@@ -66,6 +66,15 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/review", reviewRouter)
 app.use("/", userRouter)
 
+// app.get("/demouser", async (req, res) => {
+//     const user1 = new user({
+//         email: "khlid@gmail.com",
+//         username: "khalid"
+//     })
+//     const result = await user.register(user1, "ismail@12");
+//     res.send(result)
+// })
+
 
 app.all("*", (req, res, next) => {
     throw new customError(404, "page not found")

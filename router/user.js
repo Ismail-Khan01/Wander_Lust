@@ -6,14 +6,18 @@ const { redirect } = require("../middleware.js");
 const userController = require("../controller/user.js");
 
 
-// route to render signup form
-router.get("/signup", userController.renderSignupForm)
+// route to render signup form and
 // route for user signup 
-router.post("/signup", userController.signup)
-// route to render login form
-router.get("/login", userController.renderLoginForm)
+router.route("/signup")
+    .get("/signup", userController.renderSignupForm)
+    .post("/signup", userController.signup)
+
+// route to render login form and
 // route for user login
-router.post("/login", redirect, passport.authenticate("local", { failureRedirect: "/login", failureFlash: true }), userController.login)
+router.route("/login")
+    .get("/login", userController.renderLoginForm)
+    .post("/login", redirect, passport.authenticate("local", { failureRedirect: "/login", failureFlash: true }), userController.login)
+
 // route for user logout
 router.get("/logout", userController.logout)
 

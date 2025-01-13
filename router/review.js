@@ -5,18 +5,7 @@ const reviews = require("../models/review.js")
 const customError = require("../utils/error.js");
 const asyncWrap = require("../utils/asyncWrap.js");
 const { reviewSchema } = require("../schema.js");
-
-
-const reviewValidator = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const errmsg = error.details.map((el) => el.message).join(",")
-        throw new customError(400, errmsg)
-    }
-    else {
-        next()
-    }
-}
+const { reviewValidator } = require("../middleware.js")
 
 
 // route to add a review

@@ -9,17 +9,33 @@
         <div class="card col-6 offset-3 show-card card-list">
             <img src="<%=list.image%>" alt="listing_image" class="card-img-top show-img">
             <div class="card-body mt-3">
+
                 <p class="card-text">
-                    <%= list.description %> <br>
-                        &#8377; <%= list.price.toLocaleString("en-IN") %> <br>
-                            <%= list.location %> <br>
-                                <%= list.country %>
+                    Owned by<i>
+                        <%=list.owner.username%>
+                    </i></p>
+                <p class="card-text">
+                    <%= list.description %>
                 </p>
+                <p class="card-text">
+                    &#8377; <%= list.price.toLocaleString("en-IN") %>
+
+                </p>
+                <p class="card-text">
+
+                    <%= list.location %>
+                </p>
+                <p class="card-text">
+
+                    <%= list.country %>
+                </p>
+
             </div>
         </div>
 
         <br />
         <div class="btns mb-4">
+
             <a href="/listings/<%=list.id%>/edit" class="btn btn-dark col-1 offset-3 btn-edit">Edit </a>
             <form action="/listings/<%=list.id%>?_method=DELETE" method="post">
                 <button class="btn btn-dark offset-3 btn-delete">Delete </button>

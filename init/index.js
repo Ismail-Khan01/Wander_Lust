@@ -14,6 +14,9 @@ main().then(() => {
 
 async function initialize() {
     await listing.deleteMany({});
+    initdata.data = initdata.data.map((obj) => {
+        return ({ ...obj, owner: "67835fc6022388a785611d1b" })
+    })
     await listing.insertMany(initdata.data);
 
 }

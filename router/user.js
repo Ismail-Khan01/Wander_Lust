@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router({ mergeParams: true })
 const user = require("../models/user.js");
 const passport = require("passport");
+const { redirect } = require("../middleware.js");
 
 
 
@@ -21,7 +22,7 @@ router.post("/signup", async (req, res) => {
             res.redirect("/listings")
         })
     } catch (e) {
-        req.flash("failure", e.message)
+        req.flash("error", e.message)
         res.redirect("/signup")
     }
 })
@@ -29,9 +30,10 @@ router.post("/signup", async (req, res) => {
 router.get("/login", (req, res) => {
     res.render("users/login.ejs")
 })
-router.post("/login", passport.authenticate("local", { failureRedirect: "/signup", failureFlash: true }), async (req, res) => {
+router.post("/login", redirect, passport.authenticate("local", { failureRedirect: "/login", failureFlash: true }), async (req, res) => {
     req.flash("success", "Welcome back to wanderLust")
-    res.redirect("/listings")
+    const redirecturl = res.locals.redirect || "/listings";
+    res.redirect(redirecturl)
 
 })
 router.get("/logout", (req, res, next) => {

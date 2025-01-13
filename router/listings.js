@@ -3,21 +3,9 @@ const router = epxress.Router();
 const listing = require("../models/listing")
 const asyncWrap = require("../utils/asyncWrap.js");
 const customError = require("../utils/error.js");
-const { listingSchema, reviewSchema } = require("../schema.js");
-const { isLoggedIn } = require("../middleware.js");
+const { listingSchema } = require("../schema.js");
+const { isLoggedIn, isOwner, listingValidator } = require("../middleware.js");
 
-
-
-const listingValidator = (req, res, next) => {
-    const { error } = listingSchema.validate(req.body);
-    if (error) {
-        const errmsg = error.details.map((el) => el.message).join(",")
-        throw new customError(400, errmsg)
-    }
-    else {
-        next();
-    }
-}
 
 // route to view all listings
 router.get("/", asyncWrap(async (req, res) => {
@@ -32,17 +20,18 @@ router.get("/new", isLoggedIn, (req, res) => {
 router.post("/", listingValidator, asyncWrap(async (req, res) => {
     const { listing: list } = req.body
     const newListing = new listing(list);
+    newListing.owner = req.user._id;
     await newListing.save()
     req.flash("success", "New Listing got saved");
     res.redirect("/listings")
 }))
 
 // route to view individual listing
-router.get("/:id", isLoggedIn, asyncWrap(async (req, res) => {
+router.get("/:id", asyncWrap(async (req, res) => {
     const { id } = req.params;
-    const list = await listing.findById(id).populate("reviews")
+    const list = await listing.findById(id).populate("reviews").populate("owner")
     if (!list) {
-        req.flash("failure", "Listing doesn't exist");
+        req.flash("error", "Listing doesn't exist");
         res.redirect("/listings")
     }
     else {
@@ -53,21 +42,20 @@ router.get("/:id", isLoggedIn, asyncWrap(async (req, res) => {
 
 
 // route to edit the listing
-router.get("/:id/edit", isLoggedIn, asyncWrap(async (req, res) => {
+router.get("/:id/edit", isLoggedIn, isOwner, asyncWrap(async (req, res) => {
     const { id } = req.params;
     const list = await listing.findById(id);
     if (!list) {
-        req.flash("failure", "Listing doesn't exist");
+        req.flash("error", "Listing doesn't exist");
         res.redirect("/listings")
     }
     else {
-
         res.render("listings/edit.ejs", { list })
     }
 }))
 
 // route to update the listing
-router.put("/:id", isLoggedIn, listingValidator, asyncWrap(async (req, res) => {
+router.put("/:id", isLoggedIn, isOwner, listingValidator, asyncWrap(async (req, res) => {
     const { id } = req.params;
     const { listing: list } = req.body;
     await listing.findByIdAndUpdate(id, { ...list }, { new: true, runValidators: true });
@@ -76,7 +64,7 @@ router.put("/:id", isLoggedIn, listingValidator, asyncWrap(async (req, res) => {
 }))
 
 // delte route for deleting the listing
-router.delete("/:id", isLoggedIn, asyncWrap(async (req, res) => {
+router.delete("/:id", isLoggedIn, isOwner, asyncWrap(async (req, res) => {
     const { id } = req.params
     await listing.findByIdAndDelete(id);
     req.flash("success", "Listing Deleted");

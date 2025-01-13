@@ -1,6 +1,7 @@
-const listing = require("./models/listing")
+const listing = require("./models/listing");
+const Review = require("./models/review.js");
 const { listingSchema, reviewSchema } = require("./schema.js")
-const customError = require("../utils/error.js");
+const customError = require("./utils/error.js");
 
 module.exports.listingValidator = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);
@@ -41,9 +42,18 @@ module.exports.redirect = (req, res, next) => {
 module.exports.isOwner = async (req, res, next) => {
     const { id } = req.params;
     const list = await listing.findById(id);
-    if (res.locals.userStatus && res.locals.userStatus._id.equals(list.owner._id)) {
-        return next()
+    if (!listing.owner.equals(res.locals.userStatus._id)) {
+        req.flash("error", "You are not the owner of this Listing")
+        return res.redirect(`/listings/${id}`)
     }
-    req.flash("error", "You are not the owner of this Listing")
-    res.redirect(`/listings/${id}`)
+    next()
+}
+module.exports.isReviewAuthor = async (req, res, next) => {
+    const { id, reviewid } = req.params;
+    const review = await Review.findById(reviewid);
+    if (!review.author.equals(res.locals.userStatus._id)) {
+        req.flash("error", "You are not the owner of this Review")
+        return res.redirect(`/listings/${id}`)
+    }
+    next()
 }

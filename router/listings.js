@@ -27,7 +27,7 @@ router.post("/", listingValidator, asyncWrap(async (req, res) => {
 // route to view individual listing
 router.get("/:id", asyncWrap(async (req, res) => {
     const { id } = req.params;
-    const list = await listing.findById(id).populate("reviews").populate("owner")
+    const list = await listing.findById(id).populate({ path: "reviews", populate: { path: "author" } }).populate("owner")
     if (!list) {
         req.flash("error", "Listing doesn't exist");
         res.redirect("/listings")

@@ -2,8 +2,6 @@ const epxress = require('express');
 const router = epxress.Router();
 const listing = require("../models/listing")
 const asyncWrap = require("../utils/asyncWrap.js");
-const customError = require("../utils/error.js");
-const { listingSchema } = require("../schema.js");
 const { isLoggedIn, isOwner, listingValidator } = require("../middleware.js");
 
 

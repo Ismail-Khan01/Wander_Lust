@@ -1,5 +1,6 @@
 const listing = require("./models/listing")
 const { listingSchema, reviewSchema } = require("./schema.js")
+const customError = require("../utils/error.js");
 
 module.exports.listingValidator = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);

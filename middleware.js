@@ -42,12 +42,13 @@ module.exports.redirect = (req, res, next) => {
 module.exports.isOwner = async (req, res, next) => {
     const { id } = req.params;
     const list = await listing.findById(id);
-    if (!listing.owner.equals(res.locals.userStatus._id)) {
+    if (!list.owner.equals(res.locals.userStatus._id)) {
         req.flash("error", "You are not the owner of this Listing")
         return res.redirect(`/listings/${id}`)
     }
     next()
 }
+
 module.exports.isReviewAuthor = async (req, res, next) => {
     console.log("reivew middlware")
     const { id, reviewid } = req.params;

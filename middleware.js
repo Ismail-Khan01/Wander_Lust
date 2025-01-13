@@ -52,7 +52,6 @@ module.exports.isOwner = async (req, res, next) => {
 module.exports.isReviewAuthor = async (req, res, next) => {
     console.log("reivew middlware")
     const { id, reviewid } = req.params;
-    console.log(id, reviewid)
     const review = await Review.findById(reviewid);
     if (!review.author.equals(res.locals.userStatus._id)) {
         req.flash("error", "You are not the owner of this Review")

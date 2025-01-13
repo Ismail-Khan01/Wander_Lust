@@ -27,7 +27,7 @@ module.exports.reviewValidator = (req, res, next) => {
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.redirectUrl = req.originalUrl
-        req.flash("failure", "You must be Logged in to create listing")
+        req.flash("failure", "You must Login")
         return res.redirect("/login")
     }
     next()
@@ -49,8 +49,11 @@ module.exports.isOwner = async (req, res, next) => {
     next()
 }
 module.exports.isReviewAuthor = async (req, res, next) => {
+    console.log("reivew middlware")
     const { id, reviewid } = req.params;
+    console.log(id, reviewid)
     const review = await Review.findById(reviewid);
+    console.log(review)
     if (!review.author.equals(res.locals.userStatus._id)) {
         req.flash("error", "You are not the owner of this Review")
         return res.redirect(`/listings/${id}`)

@@ -10,8 +10,11 @@ module.exports.newListingForm = (req, res) => {
 }
 module.exports.addNewListing = async (req, res) => {
     const { listing: list } = req.body
+    const { path, filename } = req.file
     const newListing = new listing(list);
     newListing.owner = req.user._id;
+    newListing.image.url = path;
+    newListing.image.filename = filename;
     await newListing.save()
     req.flash("success", "New Listing got saved");
     res.redirect("/listings")

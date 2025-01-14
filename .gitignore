@@ -128,4 +128,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+.env
+.gitignore
 >>>>>>> 86bc230613a7617ed9d6d0cc468088856f13e93e

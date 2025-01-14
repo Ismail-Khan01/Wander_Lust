@@ -5,16 +5,14 @@ const asyncWrap = require("../utils/asyncWrap.js");
 const { isLoggedIn, isOwner, listingValidator } = require("../middleware.js");
 const listingController = require("../controller/listings.js");
 const multer = require("multer")
-const upload = multer({ dest: "upload" })
+const { storage } = require("../cloudconfig.js")
+const upload = multer({ storage })
 
 // route to view all listings and
 //route for adding new listing 
 router.route("/")
     .get(asyncWrap(listingController.index))
-    // .post(listingValidator, asyncWrap(listingController.addNewListing))
-    .post(upload.single("listing[image]"), (req, res) => {
-        res.send(req.file)
-    })
+    .post(isLoggedIn, upload.single("listing[image]"), listingValidator, asyncWrap(listingController.addNewListing))
 
 
 // route to get new Listing form

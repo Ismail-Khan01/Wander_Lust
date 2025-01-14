@@ -4,12 +4,17 @@ const listing = require("../models/listing")
 const asyncWrap = require("../utils/asyncWrap.js");
 const { isLoggedIn, isOwner, listingValidator } = require("../middleware.js");
 const listingController = require("../controller/listings.js");
+const multer = require("multer")
+const upload = multer({ dest: "upload" })
 
 // route to view all listings and
 //route for adding new listing 
 router.route("/")
     .get(asyncWrap(listingController.index))
-    .post(listingValidator, asyncWrap(listingController.addNewListing))
+    // .post(listingValidator, asyncWrap(listingController.addNewListing))
+    .post(upload.single("listing[image]"), (req, res) => {
+        res.send(req.file)
+    })
 
 
 // route to get new Listing form

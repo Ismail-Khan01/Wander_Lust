@@ -1,6 +1,5 @@
 const express = require("express")
 const router = express.Router({ mergeParams: true })
-const user = require("../models/user.js");
 const passport = require("passport");
 const { redirect } = require("../middleware.js");
 const userController = require("../controller/user.js");

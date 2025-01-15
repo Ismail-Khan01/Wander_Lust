@@ -77,13 +77,11 @@ app.all("*", (req, res, next) => {
 
 app.use((err, req, res, next) => {
     const { status = 500, message = "Something went Wrong" } = err;
-    console.log(message, status);
     res.status(status).render("error.ejs", { message });
 })
 
 // root route
 app.get("/", (req, res) => {
-    console.log("the get request on / route")
     res.send("This is the root page")
 })
 

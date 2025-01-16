@@ -27,7 +27,7 @@ module.exports.reviewValidator = (req, res, next) => {
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.redirectUrl = req.originalUrl
-        req.flash("failure", "You must Login")
+        req.flash("error", "You must Login")
         return res.redirect("/login")
     }
     next()

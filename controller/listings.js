@@ -17,12 +17,11 @@ module.exports.addNewListing = async (req, res) => {
         limit: 1
     })
         .send()
-    console.log(response.body.features[0].geometry.coordinates);
-    res.send("done~")
     const { path: url, filename } = req.file
     const newListing = new listing(list);
     newListing.owner = req.user._id;
     newListing.image = { url, filename }
+    newListing.geometry = response.body.features[0].geometry
     await newListing.save()
     req.flash("success", "New Listing got saved");
     res.redirect("/listings")

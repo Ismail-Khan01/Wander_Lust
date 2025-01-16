@@ -1,5 +1,7 @@
-const { model } = require("mongoose");
 const listing = require("../models/listing.js");
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
     const Listings = await listing.find({});
@@ -10,6 +12,13 @@ module.exports.newListingForm = (req, res) => {
 }
 module.exports.addNewListing = async (req, res) => {
     const { listing: list } = req.body
+    const response = await geocodingClient.forwardGeocode({
+        query: list.location,
+        limit: 1
+    })
+        .send()
+    console.log(response.body.features[0].geometry.coordinates);
+    res.send("done~")
     const { path: url, filename } = req.file
     const newListing = new listing(list);
     newListing.owner = req.user._id;

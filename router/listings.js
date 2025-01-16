@@ -1,12 +1,12 @@
 const epxress = require('express');
 const router = epxress.Router();
-const listing = require("../models/listing")
 const asyncWrap = require("../utils/asyncWrap.js");
 const { isLoggedIn, isOwner, listingValidator } = require("../middleware.js");
 const listingController = require("../controller/listings.js");
 const multer = require("multer")
 const { storage } = require("../cloudconfig.js")
 const upload = multer({ storage })
+
 
 // route to view all listings and
 //route for adding new listing 

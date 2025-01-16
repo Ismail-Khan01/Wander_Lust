@@ -3,6 +3,7 @@ const router = express.Router({ mergeParams: true })
 const passport = require("passport");
 const { redirect } = require("../middleware.js");
 const userController = require("../controller/user.js");
+const asyncWrap = require("../utils/asyncWrap.js");
 
 
 // route to render signup form and
@@ -15,7 +16,7 @@ router.route("/signup")
 // route for user login
 router.route("/login")
     .get(userController.renderLoginForm)
-    .post(redirect, passport.authenticate("local", { failureRedirect: "/login", failureFlash: true }), userController.login)
+    .post(redirect, passport.authenticate("local", { failureRedirect: "/login", failureFlash: true }), asyncWrap(userController.login))
 
 // route for user logout
 router.get("/logout", userController.logout)

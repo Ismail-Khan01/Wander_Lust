@@ -80,11 +80,6 @@ app.use((err, req, res, next) => {
     res.status(status).render("error.ejs", { message });
 })
 
-// root route
-app.get("/", (req, res) => {
-    res.send("This is the root page")
-})
-
 // listening the app on port 8000
 app.listen(port, () => {
     console.log(`The server is running on port ${port}`);

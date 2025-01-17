@@ -1,10 +1,81 @@
 <% layout('/layouts/boilerplate') %>
+<style>
+    #filters{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 1rem;
+        border: 1px solid black;
+        border-radius: 3rem;
+        margin-top: 0.5rem;
+        max-width: 800px;
+        justify-content: center;
+        align-items: center;
+    }
+    .filter i{
+        color: #fe424d;
+        transition: all 0.8s ease-in-out;
+    }
+    .filter{
+       text-align: center;
+       opacity: 0.7;
+       margin-right: 2rem;
+       margin-top: 0.5rem;
+       transition: all ease-in-out 0.5;
+       cursor: pointer;
+    }
+    .filter:hover{
+     opacity: 1;
+    }
+    .filter:hover i{
+     scale: 1.5;
+    }
+    .filter p{
+        font-size: 0.8rem;
+    }
 
-    <body>
-        <div class="row  row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-5">
+</style>
+    <div id="filters" class="">
+        <div class="filter">
+            <div><i class="fa-solid fa-fire"></i></div>
+            <p>Trending</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-bed"></i></div>
+            <p>Beds</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-mountain-city"></i></div>
+            <p>Iconic Cities</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-mountain"></i></div>
+            <p>Mountains</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-brands fa-fort-awesome"></i></div>
+            <p>Castles</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-person-swimming"></i></div>
+            <p>Amezing Pools</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-campground"></i></div>
+            <p>Camping</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-cow"></i></div>
+            <p>Farms</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-regular fa-snowflake"></i></div>
+            <p>Artic</p>
+        </div>
+    </div> 
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-5">
             <% for(list of Listings){%>
                 <a href="/listings/<%=list.id%>">
-                    <div class="card card-main card-list" style="width: 20rem">
+                    <div class="card card-main card-list" style="width: 25rem">
                         <img src="<%=list.image.url%>" alt="listing image" class="card-img-top " style="height:18rem">
                         <div class="card-img-overlay"></div>
                         <div class="card-body">
@@ -19,4 +90,3 @@
                 </a>
                 <% }%>
         </div>
-    </body>

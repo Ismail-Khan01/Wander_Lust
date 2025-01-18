@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose
 const review = require("./review.js");
+const { required } = require('joi');
 const listingSchema = new Schema({
     title: {
         type: String,
@@ -34,19 +35,24 @@ const listingSchema = new Schema({
     },
     geometry: {
         type: {
-            type: String, // Don't do `{ location: { type: String } }`
-            enum: ['Point'], // 'location.type' must be 'Point'
+            type: String,
+            enum: ['Point'],
             required: true
         },
         coordinates: {
             type: [Number],
             required: true
         }
+    },
+    category: {
+        type: String,
+        enum: ["trending", "beds", "iconic cities", "mountains", "castles", "amazing pools", "camping", "farms", "artic"],
+        required: true
+
     }
 })
 listingSchema.post("findOneAndDelete", async (list) => {
     if (list) {
-
         const deletedReview = await review.deleteMany({ _id: { $in: list.reviews } })
         console.log(deletedReview)
     }

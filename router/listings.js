@@ -31,5 +31,7 @@ router.route("/:id")
 
 // route to edit the listing
 router.get("/:id/edit", isLoggedIn, isOwner, asyncWrap(listingController.showEditForm))
+// rout for category
+router.get("/category/:id", asyncWrap(listingController.category))
 
 module.exports = router

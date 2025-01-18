@@ -118,3 +118,48 @@ body{
      width: 80vh;  
      border-radius: 20px;
 }
+
+
+/* category */
+#filters {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+    border: 1px solid black;
+    border-radius: 3rem;
+    margin-top: 0.5rem;
+    max-width: 800px;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter i {
+    color: #fe424d;
+    transition: all 0.8s ease-in-out;
+}
+
+.filter {
+    text-align: center;
+    opacity: 0.7;
+    margin-right: 2rem;
+    margin-top: 0.5rem;
+    transition: all ease-in-out 0.5;
+    cursor: pointer;
+}
+
+.filter:hover {
+    opacity: 1;
+}
+
+.filter:hover i {
+    scale: 1.5;
+}
+
+.filter p {
+    font-size: 0.8rem;
+}
+
+#filters a {
+    text-decoration: none;
+    color: black;
+}
